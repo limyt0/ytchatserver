@@ -1,0 +1,51 @@
+FROM ubuntu:20.04
+MAINTAINER ${username} ${useremail}
+# MAINTAINER testuser <test@eaxample.com>
+
+ARG WORKHOME=/workspace
+WORKDIR ${WORKHOME}
+
+# install base 1
+RUN apt-get update
+RUN apt-get install -y iputils-ping
+RUN apt-get install -y net-tools
+RUN apt-get install -y sudo
+# set locale ko_KR
+RUN apt-get update
+RUN apt-get install -y language-pack-ko
+RUN locale-gen ko_KR.UTF-8
+ENV LANG ko_KR.UTF-8
+ENV LANGUAGE ko_KR.UTF-8
+ENV LC_ALL ko_KR.UTF-8
+
+# install gcc
+RUN DEBIAN_FRONTEND=noninteractive apt-get install build-essential -y software-properties-common
+RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
+RUN apt-get clean
+RUN apt-get update
+RUN apt-get install -y gcc-snapshot
+RUN apt-get update
+RUN apt-get install -y manpages-dev
+RUN apt-get install -y gcc-8 g++-8 gcc-9 g++-9 gcc-10 g++-10
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10 --slave /usr/bin/gcov gcov /usr/bin/gcov-10
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9 --slave /usr/bin/gcov gcov /usr/bin/gcov-9
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 80 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+# ytchat cmake 
+RUN apt-get install -y cmake
+
+# install base 2
+# RUN apt-get install -y wget
+# RUN apt-get install -y curl
+# RUN apt-get install -y git
+# RUN apt-get install -y git-core
+# RUN apt-get install -y fontconfig
+# RUN apt-get install -y vim
+# RUN apt-get install -y apt-transport-https
+
+# clear
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+#RUN rm /etc/apt/sources.list.d/*
+RUN cd ${WORKHOME} \
+    && rm -rf *

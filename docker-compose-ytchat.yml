@@ -1,0 +1,9 @@
+version: '3.6'
+services:
+  ytchat:
+    container_name: testytchat
+    image: test/testytchat:latest
+    volumes:
+      - ./cppserver:/workspace/ytchat
+    ports:
+      - "12345:2345"
