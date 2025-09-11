@@ -12,7 +12,7 @@ namespace csclient
     {
         private TcpClient _client;
         private NetworkStream _stream;
-        private const string ServerIp = "192.168.0.68";//"127.0.0.1"; // 서버 IP 주소를 여기에 입력하세요
+        private const string ServerIp = "127.0.0.1"; // 서버 IP 주소를 여기에 입력하세요
         private const int ServerPort = 12345;
         private CancellationTokenSource _cancellationTokenSource;
 
